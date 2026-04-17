@@ -19,14 +19,18 @@ app.get("/api/posts", (req, res) => {
 	const limit = parseInt(req.query.limit);
 
 	if (!isNaN(limit) && limit > 0) {
-		res.json(posts.slice(0, limit));
-	} else res.json(posts);
+		res.status(200).json(posts.slice(0, limit));
+	} else res.status(200).json(posts);
 });
 
 app.get("/api/posts/:id", (req, res) => {
 	const id = parseInt(req.params.id);
-
-	res.json(posts.filter((posts) => posts.id === id));
+	const post = posts.find((post) => post.id === id);
+	if (!post)
+		res.status(404).json({
+			msg: `A post with with the id of ${id} does not exist`,
+		});
+	else res.status(200).json(posts.filter((posts) => posts.id === id));
 });
 
 app.listen(port, (_) => console.log(`server is running on port ${port}`));
