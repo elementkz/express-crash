@@ -1,4 +1,5 @@
 import logger from "./middleware/logger.js";
+import errorHandler from "./middleware/error.js";
 
 const port = process.env.PORT || 8000;
 
@@ -15,5 +16,8 @@ app.use(logger);
 
 // Routes
 app.use("/api/posts", posts);
+
+// Error handler
+app.use(errorHandler);
 
 app.listen(port, (_) => console.log(`server is running on port ${port}`));

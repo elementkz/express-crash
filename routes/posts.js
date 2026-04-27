@@ -26,6 +26,7 @@ router.get("/:id", (req, res, next) => {
 		const error = new Error(
 			`A post with with the id of ${id} does not exist`,
 		);
+		error.status = 404;
 		return next(error);
 	}
 	return res.status(200).json(posts.filter((posts) => posts.id === id));
@@ -38,8 +39,11 @@ router.post("/", (req, res) => {
 		title: req.body.title,
 	};
 
-	if (!newPost.title)
-		return res.status(400).json({ msg: "Please include a title" });
+	if (!newPost.title) {
+		const error = new Error(`Please include a title`);
+		error.status = 400;
+		return next(error);
+	}
 
 	posts.push(newPost);
 	return res.status(201).json(posts);
