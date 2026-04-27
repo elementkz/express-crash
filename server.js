@@ -1,3 +1,5 @@
+import logger from "./middleware/logger.js";
+
 const port = process.env.PORT || 8000;
 
 import express from "express";
@@ -7,6 +9,9 @@ const app = express();
 // bodyparser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Logger middleware
+app.use(logger);
 
 // Routes
 app.use("/api/posts", posts);
